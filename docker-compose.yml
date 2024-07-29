@@ -8,16 +8,16 @@ services:
   #      - "50000:50000"
   #    networks:
   #      - authenticate-service
-#  mysql:
-#    image: thaibao2002/mysql:8.0.37
-#    container_name: mysqldb
-#    ports:
-#      - "3307:3306"
-#    environment:
-#      MYSQL_DATABASE: users_services
-#      MYSQL_ROOT_PASSWORD: 123456789
-#    networks:
-#      - authenticate-service
+  mysql:
+    image: thaibao2002/mysql:8.0.37
+    container_name: mysqldb
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: users_services
+      MYSQL_ROOT_PASSWORD: 123456789
+    networks:
+      - authenticate-service
 #  zookeeper:
 #    image: thaibao2002/confluentinc-zookeeper:7.5.0
 #    restart: always
@@ -83,8 +83,8 @@ services:
       - "8888:8888"
     networks:
       - authenticate-service
-#    depends_on:
-#      - mysql
+    depends_on:
+      - mysql
 #      - zookeeper
 #      - kafka
     #     - redis
@@ -127,66 +127,66 @@ services:
   #      - zookeeper
   #      - redis
 #      - zipkin
-#  api-gateway:
-#    image: thaibao2002/api-gateway
-#    container_name: api-gateway
-#    ports:
-#      - "8999:8999"
-#    networks:
-#      - authenticate-service
-#    depends_on:
-#      - eureka-server
-#      - config-server
-#      - mysql
-##      - zookeeper
-##      - kafka
-##        - redis
-#      - zipkin
-#    environment:
-#      server.port: 8999
-#      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka/
-#      CONFIG_HOST: config-server
-#      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: users-service
-#      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://users-service:9001/
-#      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0: Path=/auth/**
-#      SPRING_CLOUD_GATEWAY_ROUTES_0_FILTERS_0: AuthFilter
-#      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://health-services:9002/
-#      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES: Path=/health/**
-#      SPRING_CLOUD_GATEWAY_ROUTES_2_URI: http://users-healths:9003/
-#      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES: Path=/users-health/**
-#      SPRING_CLOUD_GATEWAY_ROUTES_3_URI: http://doctor-service:9005/
-#      SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES: Path=/doctors/**
-#      SPRING_CLOUD_GATEWAY_ROUTES_4_URI: http://appointment-service:9006/
-#      SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES: Path=/doctorRecords/**
-#      SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://appointment-service:9006/
-#      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES: Path=/appointments/**
-#      ZIPKIN-SERVER: zipkin
-#  users-service:
-#    image: thaibao2002/users-service
-#    container_name: users-service
-#    ports:
-#      - "9001:9001"
-#    networks:
-#      - authenticate-service
-#    depends_on:
-#      - eureka-server
-#      - config-server
-#      - mysql
-##      - zookeeper
-##      - kafka
-##      - redis
-#      - zipkin
-#      - api-gateway
-#    environment:
-#      server.port: 9001
-#      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka/
-#      CONFIG_HOST: config-server
-#      MYSQL_HOST: mysqldb
-#      MYSQL_USER: root
-#      MYSQL_PASSWORD: 123456789
-#      MYSQL_PORT: 3306
-#      ZIPKIN-SERVER: zipkin
-#      DOCTOR_RECORD_HOST: appointment-service
+  api-gateway:
+    image: thaibao2002/api-gateway
+    container_name: api-gateway
+    ports:
+      - "8999:8999"
+    networks:
+      - authenticate-service
+    depends_on:
+      - eureka-server
+      - config-server
+      - mysql
+#      - zookeeper
+#      - kafka
+#        - redis
+      - zipkin
+    environment:
+      server.port: 8999
+      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka/
+      CONFIG_HOST: config-server
+      SPRING_CLOUD_GATEWAY_ROUTES_0_ID: users-service
+      SPRING_CLOUD_GATEWAY_ROUTES_0_URI: http://users-service:9001/
+      SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0: Path=/auth/**
+      SPRING_CLOUD_GATEWAY_ROUTES_0_FILTERS_0: AuthFilter
+      SPRING_CLOUD_GATEWAY_ROUTES_1_URI: http://health-services:9002/
+      SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES: Path=/health/**
+      SPRING_CLOUD_GATEWAY_ROUTES_2_URI: http://users-healths:9003/
+      SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES: Path=/users-health/**
+      SPRING_CLOUD_GATEWAY_ROUTES_3_URI: http://doctor-service:9005/
+      SPRING_CLOUD_GATEWAY_ROUTES_3_PREDICATES: Path=/doctors/**
+      SPRING_CLOUD_GATEWAY_ROUTES_4_URI: http://appointment-service:9006/
+      SPRING_CLOUD_GATEWAY_ROUTES_4_PREDICATES: Path=/doctorRecords/**
+      SPRING_CLOUD_GATEWAY_ROUTES_5_URI: http://appointment-service:9006/
+      SPRING_CLOUD_GATEWAY_ROUTES_5_PREDICATES: Path=/appointments/**
+      ZIPKIN-SERVER: zipkin
+  users-service:
+    image: thaibao2002/users-service
+    container_name: users-service
+    ports:
+      - "9001:9001"
+    networks:
+      - authenticate-service
+    depends_on:
+      - eureka-server
+      - config-server
+      - mysql
+#      - zookeeper
+#      - kafka
+#      - redis
+      - zipkin
+      - api-gateway
+    environment:
+      server.port: 9001
+      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka/
+      CONFIG_HOST: config-server
+      MYSQL_HOST: mysqldb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456789
+      MYSQL_PORT: 3306
+      ZIPKIN-SERVER: zipkin
+      DOCTOR_RECORD_HOST: appointment-service
 #  appointment-service:
 #    image: thaibao2002/appointment-service
 #    container_name: appointment-service
