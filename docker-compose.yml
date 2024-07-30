@@ -75,39 +75,39 @@ services:
 #      - mysql
 #      - zookeeper
 #      - kafka
-#  config-server:
-#    image: thaibao2002/config-server
-#    container_name: config-server
-#    restart: always
-#    ports:
-#      - "8888:8888"
-#    networks:
-#      - authenticate-service
-#    depends_on:
-#      - mysql
-##      - zookeeper
-##      - kafka
-#    #     - redis
-#    environment:
-#      server.port: 8888
-#      eureka.instance.hostname: eureka-server
-#      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka/
-#  zipkin:
-#    image: thaibao2002/openzipkin-zipkin:latest
-#    container_name: zipkin
-#    restart: always
-#    ports:
-#      - "9411:9411"
-#    networks:
-#      - authenticate-service
-#    environment:
-#      server.port: 9411
-#    depends_on:
-##      - zookeeper
-##      - kafka
-#      - mysql
-##      - redis
-#      - config-server
+  config-server:
+    image: thaibao2002/config-server
+    container_name: config-server
+    restart: always
+    ports:
+      - "8888:8888"
+    networks:
+      - authenticate-service
+    depends_on:
+      - mysql
+#      - zookeeper
+#      - kafka
+    #     - redis
+    environment:
+      server.port: 8888
+      eureka.instance.hostname: eureka-server
+      eureka.client.serviceUrl.defaultZone: http://eureka-server:8761/eureka/
+  zipkin:
+    image: thaibao2002/openzipkin-zipkin:latest
+    container_name: zipkin
+    restart: always
+    ports:
+      - "9411:9411"
+    networks:
+      - authenticate-service
+    environment:
+      server.port: 9411
+    depends_on:
+#      - zookeeper
+#      - kafka
+      - mysql
+#      - redis
+      - config-server
 #  eureka-server:
 #    image: thaibao2002/eureka-server
 #    container_name: eureka-server
